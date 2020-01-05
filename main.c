@@ -7,13 +7,20 @@
 #define PHNUM	1
 #define LOAD_VADDR	0x400000
 
-#define LOAD_DATA_LOOP_SZ	2
 const unsigned char load_data_loop[] = {
 	0xeb, 0xfe		/* jmp . */
 };
+#define LOAD_DATA_LOOP_SZ	2
 
-#define LOAD_DATA_SZ	LOAD_DATA_LOOP_SZ
-#define LOAD_DATA	load_data_loop
+const unsigned char load_data_exit[] = {
+	0x48, 0x31, 0xff,				/* xor	%rdi,	%rdi */
+	0x48, 0xc7, 0xc0, 0x3c, 0x00, 0x00, 0x00,	/* mov	$60,	%rax */
+	0x0f, 0x05					/* syscall */
+};
+#define LOAD_DATA_EXIT_SZ	16
+
+#define LOAD_DATA_SZ	LOAD_DATA_EXIT_SZ
+#define LOAD_DATA	load_data_exit
 
 static void write_elf64_ehdr(FILE *fp)
 {
