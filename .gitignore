@@ -1,0 +1,7 @@
+*~
+*.elf
+elf_test
+
+GPATH
+GRTAGS
+GTAGS
